@@ -11,4 +11,8 @@ export class User {
   @Field()
   @Column()
   username: string;
+
+  @Field()
+  @Column()
+  password: string; //TODO: remove
 }
