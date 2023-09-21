@@ -8,13 +8,14 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OwnersModule } from './owners/owners.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     PetsModule,
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'grapqldb',
+      database: 'graphqldb',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
@@ -25,6 +26,7 @@ import { UsersModule } from './users/users.module';
     }),
     OwnersModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
