@@ -7,13 +7,14 @@ import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OwnersModule } from './owners/owners.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     PetsModule,
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: ':memory:',
+      database: 'grapqldb',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
@@ -23,6 +24,7 @@ import { OwnersModule } from './owners/owners.module';
       sortSchema: true,
     }),
     OwnersModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
