@@ -1,10 +1,9 @@
-import { Resolver, Query, Args, Mutation, Int } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation, Int, Context } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { CurrentUser } from '../decorators/current-user.decorator';
 
 @Resolver(() => User)
 @UseGuards(JwtAuthGuard)
@@ -31,8 +30,10 @@ export class UsersResolver {
   @Mutation(() => User)
   async removeUser(
     @Args('id', { type: () => Int }) id: number,
-    @CurrentUser() user: any,
+    @Context() context: any,
   ): Promise<User> {
+    const user = context.req.user;
+
     if (user.userId !== id) {
       return await this.usersService.remove(id);
     }
