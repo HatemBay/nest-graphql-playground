@@ -34,6 +34,7 @@ type Mutation {
   login(loginUserInput: LoginUserInput!): LoginResponse!
   removeOwner(id: Int!): Owner!
   removePet(id: Int!): Pet!
+  removeUser(id: Int!): User!
   signup(signupUserInput: SignupUserInput!): User!
   updateOwner(id: Int!, updateOwnerInput: UpdateOwnerInput!): Owner!
   updatePet(updatePetInput: UpdatePetInput!): Pet!
