@@ -14,5 +14,5 @@ export class User {
 
   @Field()
   @Column()
-  password: string; //TODO: remove
+  password: string;
 }
