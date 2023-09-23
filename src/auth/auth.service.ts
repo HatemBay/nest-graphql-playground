@@ -27,13 +27,15 @@ export class AuthService {
 
   async login(user: User) {
     return {
-      access_token: this.jwtService.sign({ user: user.username, sub: user.id }),
+      access_token: this.jwtService.sign({
+        username: user.username,
+        sub: user.id,
+      }),
       user: user,
     };
   }
 
   async signup(signupUserInput: SignupUserInput) {
-    const password = await bcrypt.hash(signupUserInput.password, 10);
-    return await this.usersService.create({ ...signupUserInput, password });
+    return await this.usersService.create({ ...signupUserInput });
   }
 }
