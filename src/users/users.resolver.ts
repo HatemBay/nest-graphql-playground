@@ -2,8 +2,9 @@ import { Resolver, Query, Args, Mutation, Int } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
-import { UseGuards } from '@nestjs/common';
+import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CurrentUser } from '../decorators/current-user.decorator';
 
 @Resolver(() => User)
 @UseGuards(JwtAuthGuard)
@@ -28,7 +29,13 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
-  async removeUser(@Args('id', { type: () => Int }) id: number): Promise<User> {
-    return await this.usersService.remove(id);
+  async removeUser(
+    @Args('id', { type: () => Int }) id: number,
+    @CurrentUser() user: any,
+  ): Promise<User> {
+    if (user.userId !== id) {
+      return await this.usersService.remove(id);
+    }
+    throw new ForbiddenException("You can't delete your own account.");
   }
 }
